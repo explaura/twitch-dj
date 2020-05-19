@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
 
 const SPOTIFY_URL = 'https://api.spotify.com';
-const SPOTIFY_PLAYLIST_ID = '5QW77qb2zrR1pxfzbxqoUw';
+const SPOTIFY_PLAYLIST_ID = '7nyIsdoLSm4gnXBFo7hNZC';
 
 const addSongToPlaylist = async (spotifyUri) => {
   const request = {
