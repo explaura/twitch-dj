@@ -10,12 +10,7 @@ const logger = createLogger({
 });
 
 const PORT = process.env.PORT || 3002;
-const PLAYLIST_SCOPES = [
-  'playlist-modify-public',
-  'playlist-modify-private',
-  'user-read-email',
-  'user-read-private',
-];
+const PLAYLIST_SCOPES = ['playlist-modify-public', 'playlist-modify-private'];
 
 const router = express.Router();
 

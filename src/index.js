@@ -1,8 +1,9 @@
 const tmi = require('tmi.js');
-const express = require('express');
-const spotifyRouter = require('./routers/spotify');
 const { parse } = require('path');
 const { createLogger } = require('bunyan');
+const express = require('express');
+const spotifyRouter = require('./routers/spotify');
+const addSongToPlaylist = require('./services/spotify');
 
 const OAUTH_TOKEN = process.env.OAUTH_TOKEN;
 const STREAMER_CHANNEL = process.env.STREAMER_CHANNEL;
@@ -69,16 +70,24 @@ client.on('message', async (channel, tags, message, self) => {
     }
   } else if (message.toLowerCase() === SONG_REQUEST_COMMAND) {
     try {
-      // TODO: queue song on spotify
+      const res = await addSongToPlaylist(
+        // eslint-disable-next-line max-len
+        'BQA-OeXTh7kcnmbCGSABYuSczEYHWFyqQmFCWFyxGpt0Ez-r16-cHBp8rp0Dl8iGQhIpvRHpn_OSo8g4ysjCpDWn_iz13UXbC8umJRpNjCsYnae3WZROGRvk4I_BhdN9BISW6GhtA0v_i5OzaLUUeTGkLklASkZ_FTyHD0taRwquwkjj8bJo60z5lj5znsuaemktjjTalQ'
+      );
+
+      logger.info({
+        res,
+        message: 'requested song on spotify',
+      });
 
       return await client.say(
         channel,
-        `@${tags.username} is pouring ${STREAMER_CHANNEL} a shot`
+        `@${tags.username} your song has been added to the playlist`
       );
     } catch (err) {
       await client.say(
         channel,
-        `@${tags.username}, failed to pour ${STREAMER_CHANNEL} a shot :(`
+        `@${tags.username}, failed to add your song to the playlist :(`
       );
       logger.err({
         err,
