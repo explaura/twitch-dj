@@ -29,6 +29,7 @@ passport.use(
         profile,
         message: 'successfully logged into spotify',
       });
+      process.env.SPOTIFY_ACCESS_TOKEN = accessToken;
       return done();
     }
   )

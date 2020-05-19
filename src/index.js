@@ -3,7 +3,7 @@ const { parse } = require('path');
 const { createLogger } = require('bunyan');
 const express = require('express');
 const spotifyRouter = require('./routers/spotify');
-const addSongToPlaylist = require('./services/spotify');
+const { addSongToPlaylist, searchSong } = require('./services/spotify');
 
 const OAUTH_TOKEN = process.env.OAUTH_TOKEN;
 const STREAMER_CHANNEL = process.env.STREAMER_CHANNEL;
@@ -62,22 +62,22 @@ client.on('message', async (channel, tags, message, self) => {
       );
     } catch (err) {
       await client.say(channel, `@${tags.username}, failed to provide help :(`);
-      logger.err({
+      logger.error({
         err,
         message: `failed to handle ${HELP_COMMAND} command`,
       });
       return err;
     }
-  } else if (message.toLowerCase() === SONG_REQUEST_COMMAND) {
+  } else if (message.toLowerCase().startsWith(SONG_REQUEST_COMMAND)) {
     try {
-      const res = await addSongToPlaylist(
-        // eslint-disable-next-line max-len
-        'BQA-OeXTh7kcnmbCGSABYuSczEYHWFyqQmFCWFyxGpt0Ez-r16-cHBp8rp0Dl8iGQhIpvRHpn_OSo8g4ysjCpDWn_iz13UXbC8umJRpNjCsYnae3WZROGRvk4I_BhdN9BISW6GhtA0v_i5OzaLUUeTGkLklASkZ_FTyHD0taRwquwkjj8bJo60z5lj5znsuaemktjjTalQ'
-      );
+      const songRequest = message.replace(`${SONG_REQUEST_COMMAND} `, '');
+      const songUri = await searchSong(songRequest);
 
+      const res = await addSongToPlaylist(songUri);
       logger.info({
         res,
-        message: 'requested song on spotify',
+        songUri,
+        message: 'added song to playlist',
       });
 
       return await client.say(
@@ -89,7 +89,7 @@ client.on('message', async (channel, tags, message, self) => {
         channel,
         `@${tags.username}, failed to add your song to the playlist :(`
       );
-      logger.err({
+      logger.error({
         err,
         message: `failed to handle ${SONG_REQUEST_COMMAND} command`,
       });
