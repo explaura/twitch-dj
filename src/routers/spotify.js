@@ -22,8 +22,8 @@ const router = express.Router();
 passport.use(
   new SpotifyStrategy(
     {
-      clientID: 'clientid',
-      clientSecret: 'clientsecret',
+      clientID: process.env.SPOTIFY_CLIENT_ID,
+      clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
       callbackURL: `http://localhost:${PORT}/callback`,
     },
     (accessToken, refreshToken, expires_in, profile, done) => {
