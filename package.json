@@ -1,0 +1,49 @@
+{
+  "name": "twitch-bot",
+  "version": "1.0.0",
+  "description": "A chatbot for Twitch",
+  "main": "index.js",
+  "scripts": {
+    "start": "env-cmd -f ./.env nodemon src/index.js",
+    "lint": "eslint --ext .js 'src/**/*.js'",
+    "lint:fix": "npm run lint -- --fix",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/explaura/twitch-bot.git"
+  },
+  "keywords": [
+    "twitch",
+    "chatbot",
+    "nodejs",
+    "tmi"
+  ],
+  "author": "Laura Brandon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/explaura/twitch-bot/issues"
+  },
+  "homepage": "https://github.com/explaura/twitch-bot#readme",
+  "dependencies": {
+    "bunyan": "^1.8.12",
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.0",
+    "tmi.js": "^1.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^13.11.0",
+    "env-cmd": "^10.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "husky": "^4.2.3",
+    "nodemon": "^2.0.3",
+    "prettier": "^2.0.4"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run lint"
+    }
+  }
+}
