@@ -27,7 +27,7 @@
   "homepage": "https://github.com/explaura/twitch-bot#readme",
   "dependencies": {
     "bunyan": "^1.8.12",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "node-fetch": "^2.6.0",
     "passport": "^0.4.1",
     "passport-spotify": "^1.1.0",
